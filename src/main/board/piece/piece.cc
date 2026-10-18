@@ -1,16 +1,23 @@
 #include "position.h"
 #include "piece.h"
+#include <vector>
+
+using namespace std;
 
 enum PieceType {
+    BISHOP,
+    ROOK
     // list them out later
 };
 
 enum Colour {
-    White,
-    Black
+    WHITE,
+    BLACK
 };
 
 class Piece {
+    protected: 
+
     Position* position;
     PieceType type;
     Colour colour;
@@ -25,9 +32,14 @@ class Piece {
 
     }
 
+    void moveTo(Position* position);
+
+    virtual vector<Position*> canMoveTo() = 0;
+
     // getters+setters?
 
-    // requires: generating array of places where you can move
+    // requires: method for generating array of places where you can move
+    // depends on the type
 
 };
 
@@ -37,4 +49,10 @@ Piece::~Piece() {
 
 Piece::Piece(Position* position, PieceType type, Colour colour): position(position), type(type), colour(colour) {
 
+}
+
+void Piece::moveTo(Position* position) {
+    Position* oldPosition = this->position;
+    this->position = position;
+    delete oldPosition;
 }
